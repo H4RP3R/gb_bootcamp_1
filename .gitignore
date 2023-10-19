@@ -478,3 +478,7 @@ $RECYCLE.BIN/
 
 # Java
 *.class
+
+# Python virtual environment folders
+*_env/
+*_venv/
