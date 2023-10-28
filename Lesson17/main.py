@@ -16,7 +16,7 @@ def info():
     return render_template('info.html', title='Info', names=students)
 
 
-@app.route('/condt/<x>/<y>')
+@app.route('/condition/<x>/<y>')
 def summ(x, y):
     return render_template('condition.html', title='Compare Numbers', x=int(x), y=int(y))
 
