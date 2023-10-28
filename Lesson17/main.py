@@ -17,7 +17,7 @@ def info():
 
 
 @app.route('/condition/<x>/<y>')
-def summ(x, y):
+def condition(x, y):
     return render_template('condition.html', title='Compare Numbers', x=int(x), y=int(y))
 
 
