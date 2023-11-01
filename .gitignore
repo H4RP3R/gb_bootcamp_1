@@ -483,3 +483,6 @@ $RECYCLE.BIN/
 # Python virtual environment folders
 *_env/
 *_venv/
+
+# Other shit
+db.txt

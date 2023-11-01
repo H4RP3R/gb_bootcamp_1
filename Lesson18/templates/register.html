@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}" type="text/css">
+</head>
+
+<body>
+    <form action="" method="post">
+        {{ form.csrf_token() }}
+        <p>
+            {{ form.name.label() }} <br>
+            {{ form.name() }}
+        </p>
+        <p>
+            {{ form.email.label() }} <br>
+            {{ form.email() }}
+        </p>
+        <p>
+            {{ form.password.label() }} <br>
+            {{ form.password() }}
+        </p>
+        <p>
+            {{ form.submit() }}
+        </p>
+    </form>
+</body>
+
+</html>
