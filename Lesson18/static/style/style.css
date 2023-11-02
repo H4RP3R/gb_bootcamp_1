@@ -38,3 +38,13 @@ input[type=submit] {
     font-weight: bold;
     text-transform: uppercase;
 }
+
+ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+.flashes {
+    color: chartreuse;
+    margin: 20px 0px;
+}
