@@ -1,5 +1,7 @@
-from flask import Flask, render_template
-from reg import RegisterForm
+from flask import Flask, render_template, session, flash, redirect, url_for
+from reg import RegisterForm, LoginForm
+
+from utils import get_user
 
 
 app = Flask(__name__)
@@ -25,7 +27,18 @@ def condition(x, y):
 
 @app.route('/auth', methods=['GET', 'POST'])
 def auth():
-    return render_template('auth.html', title='Authentication')
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = get_user(form.data['name'], form.data['password'])
+        if user:
+            session['loggedin'] = True
+            session['username'] = user.username
+            flash('You have successfully logged in!')
+            return redirect(url_for('main'))
+        else:
+            flash('Invalid username or password')
+
+    return render_template('auth.html', title='Authentication', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -36,6 +49,13 @@ def register():
             f.write(f'{form.data["name"]};{form.data["email"]};{form.data["password"]}\n')
         return render_template('index.html', message='You have successfully registered')
     return render_template('register.html', title='Create Account', form=form)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('loggedin', None)
+    session.pop('id', None)
+    return redirect(url_for('auth'))
 
 
 if __name__ == '__main__':
