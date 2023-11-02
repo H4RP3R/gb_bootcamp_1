@@ -32,3 +32,8 @@ db.AppendWorker(worker4);
 Console.WriteLine(db.SelectAllDep());
 Console.WriteLine("__________\n");
 Console.WriteLine(db.SelectAllWorker());
+Console.WriteLine("__________\n");
+foreach (var item in db.Report())
+{
+    Console.WriteLine((item));
+}

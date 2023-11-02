@@ -14,4 +14,3 @@ class Department
         return $"title: {this.title}  id: {this.id}";
     }
 }
-// TODO report method

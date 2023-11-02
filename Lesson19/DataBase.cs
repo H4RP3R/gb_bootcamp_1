@@ -38,4 +38,14 @@ class Database
         }
         return output;
     }
+
+    public List<(string, int, string)> Report()
+    {
+        List<(string, int, string)> rep = new();
+        foreach (var worker in this.workerTable)
+        {
+            rep.Add((worker.fullName, worker.age, this.depTable[worker.depId].title));
+        }
+        return rep;
+    }
 }
