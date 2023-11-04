@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if session.loggedin %}
+<h1>Howdy {{ session.username }}</h1>
+{% else %}
+<h1>Howdy folks!</h1>
+{% endif %}
+
+{% if message %}
+<p class="message">{{ message }}</p>
+{% endif %}
+{% if session.loggedin %}
+<a href="{{ url_for('logout') }}" />Log out</a><br>
+{% else %}
+<a href="{{ url_for('register') }}" />Register</a><br>
+<a href="{{ url_for('auth') }}" />Log in</a><br>
+{% endif %}
+<a href="{{ url_for('info') }}" />Info</a>
+{% endblock %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}

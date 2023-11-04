@@ -1,0 +1,10 @@
+{% extends 'index.html' %}
+{% block content %}
+<b>Students list:</b><br>
+<ol>
+    {% for row in names %}
+    <li>{{ row }}</li>
+    {% endfor %}
+</ol>
+<a href="/">back</a>
+{% endblock %}
