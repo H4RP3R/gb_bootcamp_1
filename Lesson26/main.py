@@ -36,7 +36,6 @@ def auth():
         sessions = db_session.create_session()
         user = sessions.query(users.User).filter(users.User.name == form.name.data).first()
         if user and user.check_password(form.password.data):
-            print(user)
             session['loggedin'] = True
             session['username'] = user.name
             flash('You have successfully logged in!')
