@@ -486,3 +486,11 @@ $RECYCLE.BIN/
 
 # Other shit
 db.txt
+
+# SQLite DB
+*.sqlite
+*.sqlite3
+*.db
+*.db3
+*.s3db
+*.sl3

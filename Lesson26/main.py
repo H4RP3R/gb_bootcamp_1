@@ -1,7 +1,10 @@
 from flask import Flask, render_template, session, flash, redirect, url_for
-from reg import RegisterForm, LoginForm
+from flask_login import login_user
+from werkzeug.security import generate_password_hash
+from sqlalchemy.exc import IntegrityError
 
-from utils import get_user
+from reg import RegisterForm, LoginForm
+from data import db_session, users
 
 
 app = Flask(__name__)
@@ -9,12 +12,12 @@ app.static_folder = 'static'
 app.config['SECRET_KEY'] = 'Ieyei2ung4Aesie0'
 
 
-@app.route('/', methods=['get'])
+@app.route('/', methods=['GET'])
 def main():
     return render_template('index.html', title='Main Page')
 
 
-@app.route('/info', methods=['get'])
+@app.route('/info', methods=['GET'])
 def info():
     students = ['Ivan', 'Lisa', 'Mark', 'Tom', 'Ann', 'Donna', 'Mary']
     return render_template('info.html', title='Info', names=students)
@@ -27,27 +30,40 @@ def condition(x, y):
 
 @app.route('/auth', methods=['GET', 'POST'])
 def auth():
+    db_session.global_init('db/app.db')
     form = LoginForm()
     if form.validate_on_submit():
-        user = get_user(form.data['name'], form.data['password'])
-        if user:
+        sessions = db_session.create_session()
+        user = sessions.query(users.User).filter(users.User.name == form.name.data).first()
+        if user and user.check_password(form.password.data):
+            print(user)
             session['loggedin'] = True
-            session['username'] = user.username
+            session['username'] = user.name
             flash('You have successfully logged in!')
             return redirect(url_for('main'))
         else:
             flash('Invalid username or password')
-
     return render_template('auth.html', title='Authentication', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    db_session.global_init('db/app.db')
     form = RegisterForm()
     if form.validate_on_submit():
-        with open('db.txt', 'a', encoding='utf-8') as f:
-            f.write(f'{form.data["name"]};{form.data["email"]};{form.data["password"]}\n')
-        return render_template('index.html', message='You have successfully registered')
+        sessions = db_session.create_session()
+        try:
+            user = users.User(
+                name=form.name.data,
+                email=form.email.data,
+                password=generate_password_hash(form.password.data)
+            )
+            user.set_password(form.password.data)
+            sessions.add(user)
+            sessions.commit()
+            return render_template('index.html', message='You have successfully registered')
+        except IntegrityError:
+            flash('This user already exists!')
     return render_template('register.html', title='Create Account', form=form)
 
 
