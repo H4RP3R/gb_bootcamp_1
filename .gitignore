@@ -486,6 +486,7 @@ $RECYCLE.BIN/
 
 # Other shit
 db.txt
+token.config
 
 # SQLite DB
 *.sqlite
