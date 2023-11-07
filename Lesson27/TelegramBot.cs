@@ -33,6 +33,21 @@ public class TelegramBot
         }
     }
 
+    public void SendMessage(long chatId, string text)
+    {
+        string answer = string.Empty;
+        try
+        {
+            answer = hc.GetStringAsync($"sendMessage?chat_id={chatId}&text={text}").Result;
+            dynamic ans = Newtonsoft.Json.JsonConvert.DeserializeObject(answer);
+            Console.WriteLine($"Sent message status: {ans.ok}");
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("An error occurred while sending the response");
+        }
+    }
+
     public void Start()
     {
         thread.Start();
