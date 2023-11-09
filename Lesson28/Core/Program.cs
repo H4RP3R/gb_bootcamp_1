@@ -47,5 +47,3 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();
-
-// TODO: add client 00:59:30
